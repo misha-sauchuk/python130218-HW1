@@ -14,7 +14,7 @@ dict_chek = {'name': '', 'surname': '', 'sex': '', 'age': ''}
 # Fucnction to input information to search
 def search_info():
     for key in dict_chek.keys():
-        print('Please, enter an information about {}:'.format(key))
+        print('Please, enter an information about {}, or press "Enter" to skip:'.format(key.upper()))
         dict_chek[key] = input()
     return dict_chek
 
