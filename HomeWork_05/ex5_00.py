@@ -14,7 +14,7 @@ key_val_list = list(d.items())
 maximum = None
 for i in key_val_list:
     if maximum is None:
-        maximum = i[0],i[1]
+        maximum = i
     elif maximum[1]<i[1]:
-        maximum = i[0],i[1]
+        maximum = i
 print('number {} is repeated {} times'.format(maximum[0], maximum[1]))
