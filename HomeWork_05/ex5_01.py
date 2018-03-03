@@ -1,5 +1,5 @@
 # Matrix that we should use
-Matrix = [
+MATRIX = [
     [3, 5, 9],
     [2, 18, 36],
     [12, 2, 5]
