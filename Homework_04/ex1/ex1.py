@@ -5,16 +5,15 @@ import string
 ident = input('Enter your word: ')
 
 # Create data to make check the word
-check = 0
 check_string = string.ascii_letters + string.digits + '_'
 
-# Look through the input word to find needfull elements
-for i in ident:
-    if i in check_string:
-        check = check + 1
-
-# Check if word is identifier
-if check == len(ident):
-    print('"{}" is identifier'.format(ident))
+# Check if our word is identifier
+if ident[0].isalpha() or ident[0]=='_':
+    for i in ident:
+        if i not in check_string:
+            print('"{}" is not identifier'.format(ident))
+            break
+    else:
+        print('"{}" is identifier'.format(ident))
 else:
     print('"{}" is not identifier'.format(ident))
