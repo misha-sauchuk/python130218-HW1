@@ -9,6 +9,7 @@ print('Please, enter a text: \n')
 text = input_data()
 print('Please, enter a symbol, you wold like to check: ')
 symbol = input_data()
+symbol_end = text.rfind(symbol)
 
 # Create a new string with upper symbol
 for letter in text:
@@ -16,7 +17,7 @@ for letter in text:
         new_text = text.replace(letter, letter.upper())
 
 # Create a new string without ends
-final_text = new_text[:new_text.rfind(symbol.upper())]
+new_text = new_text[:symbol_end]
 
 # Print answer
-print(final_text)
+print(new_text)
