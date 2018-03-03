@@ -14,7 +14,7 @@ x = 0
 exersice_list = []
 while x < numbers_of_lists:
     exersice_list.append(x)
-    x = x + 1
+    x += 1
 print(exersice_list)
 
 # Creating a lists using fuction 'inp_list'
@@ -25,7 +25,7 @@ print(exersice_list)
 # Find the length of the largest list in all amount of lists
 max_len = None
 for element in exersice_list:
-    if max_len == None:
+    if max_len is None:
         max_len = len(element)
     elif len(element) >= max_len:
         max_len = len(element)
