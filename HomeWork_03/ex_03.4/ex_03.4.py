@@ -14,7 +14,5 @@ invitation = [input_data()]
 # Chekc the correct sex
 if 'MR' in invitation:
     print('The sex is male')
-elif 'MS' in invitation:
-    print('The sex is unknown')
 else:
     print('The sex is female')
