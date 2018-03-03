@@ -10,6 +10,6 @@ while True:
 # Delete every element '0' and add new element '-1'
 for i in numbers:
     if i == 0:
-        del numbers[i]
+        numbers.remove(i)
         numbers.append(-1)
 print(numbers)
