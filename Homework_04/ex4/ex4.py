@@ -30,7 +30,7 @@ def check_condition():
 def count_mont():
     month = 0
     deposit = initial_deposit
-    while deposit < end_deposit:
+    while deposit <= end_deposit:
         month = month + 1
         deposit = deposit + deposit * percent / 100
     return month
