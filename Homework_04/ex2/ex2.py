@@ -9,7 +9,7 @@ check_str = 'AEIOYUeyuioaУЕЁЫАОЭЯИЮёуеаоэяиюы'
 position = None
 min_len = None
 for word in list_text:
-    if min_len == None:
+    if min_len is None:
         min_len = len(word)
         position = list_text.index(word)
     elif len(word) < min_len:
