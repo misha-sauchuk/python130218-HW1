@@ -18,14 +18,8 @@ def ask_to_continue():
 # Function to import exercise from HomeWork_05. Use can choose exercise
 def running_ex():
     ex = input('\nPlease, enter number (1, 2, 3 or 4) of exercise you would like to run: ')
-    if ex == '1':
-        from HomeWork_05 import ex5_01
-    elif ex == '2':
-        from HomeWork_05 import ex5_02
-    elif ex == '3':
-        from HomeWork_05 import ex5_03
-    elif ex == '4':
-        from HomeWork_05 import ex5_04
+    ex = 'ex5_0' + ex
+    exec('import HomeWork_05.' + ex)
 
 
 # Circle to run code until user stop
