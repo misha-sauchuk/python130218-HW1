@@ -23,9 +23,8 @@ dict_chek = search_info()
 
 # Count how many parameters we use to search the student
 find_numbres = 0
-for key in dict_chek:
-    if len(dict_chek[key]) > 0:
-        find_numbres += 1
+for value in dict_chek.values():
+    if value: find_numbres += 1
 
 # Check if there are students in our list with input information
 number = 0
