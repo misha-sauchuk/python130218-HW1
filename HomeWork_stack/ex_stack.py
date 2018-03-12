@@ -7,17 +7,15 @@ count = 0
 def push(l):
     number = int(input('Please, enter a number, you would like to add:\n'))
     print('ok')
-    global lst
-    lst = l + [number]
-    return lst
+    l = l + [number]
+    return l
 
 
 # function to delete last number in stack and print it
 def pop(l):
     print(l[-1])
-    global lst
-    lst = l[:-1]
-    return lst
+    l = l[:-1]
+    return l
 
 
 # function to print last number in stack
@@ -31,11 +29,11 @@ def size():
 
 
 # function to delete all elements from stack
-def clear():
+def clear(l):
     print('ok')
-    global lst
-    lst = []
-    return lst
+    l = []
+    return l
+
 
 # function to exit the programm
 def exit():
@@ -47,17 +45,18 @@ def exit():
 while True:
     command = input('Please, enter your command:\n')
     if command == 'push':
-        push(lst)
+        lst = push(lst)
         count += 1
+        # print(lst)
     elif command == 'pop':
-        pop(lst)
+        lst = pop(lst)
         count -= 1
     elif command == 'back':
         back(lst)
     elif command == 'size':
         size()
     elif command == 'clear':
-        clear()
+        lst = clear(lst)
         count = 0
     elif command == 'exit':
         exit()
