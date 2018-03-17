@@ -6,7 +6,7 @@ text_file = open('student performance.txt')
 
 # create a list of students without \n element using list generator
 stud_group = [line.rstrip().split() for line in text_file]
-
+print(stud_group)
 # create a list of marks in all group using list generator
 mark_group = [int(stud[-1]) for stud in stud_group]
 
