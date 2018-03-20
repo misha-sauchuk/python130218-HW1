@@ -8,7 +8,7 @@ from HomeWork_05.ex5_03 import find_stud
 
 # read data from database_file in format where elements are dict
 stud_list = []
-with open('stud_db.js') as db:
+with open('stud_db.json') as db:
     for line in db:
         stud_list.append(json.loads(line))
 

@@ -19,44 +19,43 @@ def inp_num():
                 print('Invalid input')
                 continue
             return num
-        except:
-            print('Invalid input')
+        except ValueError as er:
+            print('Value Error: ', er)
             continue
 
 
 # function to calculate the sum of digits in number
-def count_sum(nat_num):
+def count_sum(nat_num=None, count=0):
+    if nat_num is None:
+        nat_num = inp_num()
     digit = nat_num % 10
     nat_num = nat_num // 10
-    global count
     count = count + digit
     if nat_num:
-        count_sum(nat_num)
-    return count
+        count_sum(nat_num, count)
+    else:
+        print('The sum of digits in your number is {}'.format(count))
+        request_to_exit = input('Please, press "Y" to exit or press "Enter" to continue: ')
+        if request_to_exit.upper() == 'Y' or request_to_exit.upper() == 'YES':
+            return
+        else:
+            count_sum()
 
 
-# ask user to input number
-while True:
-    number = inp_num()
-    count = 0
-    answer = count_sum(number)
-    print('The summ of digits in {} is {}'.format(number, answer))
-    request_to_exit = input('Do you want to exit? Y/N ')
-    if request_to_exit.upper() == 'Y' or request_to_exit.upper() == 'YES':
-        count = 0
-        break
+# call the function to calculate the sum of digits in number
+count_sum()
 
 
 def test_inp_num():
+    number = inp_num()
     if type(number) is int:
         print('test inp_num is OK')
 
 
 def test_count_sum():
-    test = count_sum(123)
-    if test == 6:
+    if count_sum(nat_num=123) == 6:
         print('test count_sum is OK')
 
 
 test_inp_num()
-test_count_sum()
+#test_count_sum()
