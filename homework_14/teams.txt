@@ -1,0 +1,2 @@
+{"id_team": "1", "name": "Eagles"}
+{"id_team": "2", "name": "Patriots"}
