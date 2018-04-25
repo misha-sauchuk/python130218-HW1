@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add books</title>
+</head>
+<body>
+    <form method="POST">{% csrf_token %}
+        {{add_book.as_p}}
+        <button type="submit">сохранить</button>
+    </form>
+    <p><a href="{% url 'books' %}">вернуться на главную</a></p>
+</body>
+</html>

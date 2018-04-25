@@ -1,15 +1,18 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>About book {{book.title}}</title>
+    <title>About book {{book_info.title}}</title>
 </head>
 <body>
-    <h1>{{book.title}}</h1>
-    <ol>
-    {% for book in books %}
-        <li><a href="{% url 'genre_info' genre_id=genre.id %}"> {{genre.genre}}</a>
-        </li>
-    {% endfor %}
-    </ol>
+    <h1>{{book_info.title}}</h1>
+    <p>
+        {% for author in book_info.author.all %}
+        Автор <a href="{% url 'author_info' author_id=author.id %}"> {{author.name}} {{author.surname}}</a>
+        {% endfor %}</p>
+    <p>Жанр: {{book_info.genre_id}}</p>
+    <p>Колчисетво страниц: {{book_info.pages}}</p>
+    <p><a href="{% url 'books' %}">вернуться на главную</a></p>
 </body>
 </html>
+
+
