@@ -25,9 +25,12 @@ class Author(models.Model):
     surname = models.CharField(max_length=250)
     birthday = models.DateField()
     date_of_dearth = models.DateField(default=datetime.today)
-    years = models.IntegerField(default=0)
+    years = models.IntegerField(default=0, blank=True)
     country_of_birth = models.CharField(max_length=250)
     book_id = models.ManyToManyField(Book, related_name='author')
+
+    def __str__(self):
+        return '{} {}'.format(self.name, self.surname)
 
 
 class Publisher(models.Model):

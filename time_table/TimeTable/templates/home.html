@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>График работы механической службы в {{month_name}}</h1>
+<p>
+    <ol>
+        {% for timetable in timetable %}
+        {% if timetable.month_id.month == month %}
+        <li>{{timetable.mechanic_id}} {{timetable.timetable}} <a href="{% url 'mod_timetable' timetable_id=timetable.id %}">изменить график</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ol>
+</p>
+{% endblock %}
+
+

@@ -2,8 +2,8 @@ from . import views
 from django.urls import path
 
 urlpatterns = [
-    path('', views.home_page, name='books'),
-    path('books/', views.books, name='books'),
+    #path('', views.home_page, name='books'),
+    path('books', views.books, name='books'),
     path('add_book_button', views.add_book_button, name='add_book_button'),
     path('add_author_button', views.add_author_button, name='add_author_button'),
     path('books/<int:book_id> ', views.book_info, name='book_info'),
@@ -15,5 +15,7 @@ urlpatterns = [
     path('genres/<int:genre_id> ', views.genre_info, name='genre_info'),
     path('add_book/', views.add_book, name='add_book'),
     path('add_author/', views.add_author, name='add_author'),
+    path('books/<int:book_id>', views.update_book, name='update_book'),
+    path('del_book/<int:book_id>', views.del_books, name='del_book'),
 
 ]

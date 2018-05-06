@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <ol>
+            {% for timetable in timetable %}
+            <li>{{timetable.mechanic_id}} {{timetable.timetable}}  {{timetable.month_id.working_days}} {{timetable.id}}
+            </li>
+            {% endfor %}
+        </ol>
+{% endblock %}
+
+{% block footer %}
+    <a href="{% url 'create_timetable' %}">Создать график</a>
+{% endblock %}

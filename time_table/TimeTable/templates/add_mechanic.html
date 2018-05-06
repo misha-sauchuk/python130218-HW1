@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="POST">{% csrf_token %}
+        {{add_mechanic.as_p}}
+        <button type="submit">сохранить</button>
+    </form>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

@@ -11,6 +11,7 @@
         {% endfor %}</p>
     <p>Жанр: {{book_info.genre_id}}</p>
     <p>Колчисетво страниц: {{book_info.pages}}</p>
+    <p><a href="{% url 'update_book' book_id=book_info.id%} ">изменить книгу</a></p> <a href="{% url 'del_book' book_id=book_info.id %}">удалить книгу</a>
     <p><a href="{% url 'books' %}">вернуться на главную</a></p>
 </body>
 </html>

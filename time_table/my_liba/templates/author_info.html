@@ -7,7 +7,7 @@
     <h1>{{author_info.name}} {{author_info.surname}}</h1>
     <p>Дата рождения: {{author_info.birthday}}</p>
     <p>Место рождения: {{author_info.country_of_birth}}</p>
-    <p>Прожил: {{author.years}} лет
+    <p>Прожил: {{author_info.years}} лет
     <h4>Книги:</h4>
     <ol>
         {% for book in author_info.book_id.all %}

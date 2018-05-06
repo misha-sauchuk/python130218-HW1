@@ -1,0 +1,20 @@
+{% extends 'mechanics.html' %}
+
+{% block content %}
+    <h1>{{mechanic.surname}} {{mechanic.name}}</h1>
+    <p>Табельнй номер: {{mechanic.timetable_number}}</p>
+    <p>Контактный телефон: {{mechanic.phone}}</p>
+    <p>Домашний адрес: {{mechanic.address}}</p>
+    <ol>
+    {% for table in mechanic.table.all %}
+        <li><p>{{table.month_id}}: {{table.timetable}} </p></li>
+
+    {% endfor %}
+    </ol>
+
+{% endblock %}
+
+{% block footer %}
+    <a href="{% url 'mod_mechanic' mechanic_id=mechanic.id %}">Изменить данные</a>
+{% endblock %}
+

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="POST">{% csrf_token %}
+        {{choose_month.as_p}}
+        <button type="submit">сохранить</button>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+

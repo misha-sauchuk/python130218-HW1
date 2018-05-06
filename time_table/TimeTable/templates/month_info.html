@@ -1,0 +1,13 @@
+{% extends 'months.html' %}
+
+{% block content %}
+    <h1>{{month.name}}</h1>
+    <p>Количесвто дней в месяце: {{month.days_in_month}}</p>
+    <p>Количесвто рабочих дней в месяце: {{month.working_days}}</p>
+    <ol>
+        {% for table in month.month_name.all %}
+        <li>{{table.mechanic_id}} {{table.timetable}}</li>
+        {% endfor %}
+    </ol>
+
+{% endblock %}

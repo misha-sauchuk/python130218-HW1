@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Author, Book, Publisher, Edition, Genre
-from .forms import AddBook, AddAuthor
+from .forms import AddBook, AddAuthor, UpdateBooks
 from django.http import HttpResponseRedirect, HttpResponse
 # Create your views here.
 
@@ -42,7 +42,7 @@ def genres(request):
 
 def genre_info(request, genre_id):
     genre = Author.objects.get(id=genre_id)
-    return render(request, 'genre_info.html', context={'genres_infor': genre})
+    return render(request, 'genre_info.html', context={'genres_info': genre})
 
 
 def add_book(request):
@@ -60,11 +60,6 @@ def add_author(request):
     if request.method == 'POST':
         form = AddAuthor(request.POST)
         if form.is_valid():
-            print('_____________')
-            form.country_of_birth = form.cleaned_data['country_of_birth']
-            form.country_of_birth = 'Русь'
-            print('_____________', form.country_of_birth)
-
             form.save()
             return HttpResponseRedirect('/liba/books')
     return render(request, 'add_author.html', context={'add_author': form})
@@ -77,5 +72,25 @@ def add_book_button(request):
 def add_author_button(request):
     return HttpResponseRedirect('/liba/add_author')
 
+def del_books(request, book_id):
+    book = Book.objects.get(id=book_id).delete()
+    return render(request, 'del_book.html', context={'del_book':book})
+
+
 def home_page(request):
     return HttpResponse('liba/books')
+
+
+def update_book(request, book_id):
+    book = Book.objects.get(id=book_id)
+
+    if request.method == 'POST':
+        pages = UpdateBooks(request.POST, instance=book)
+        if pages.is_valid():
+            pages.save()
+            return HttpResponseRedirect('/liba/books')
+
+    pages = UpdateBooks(instance=book)
+    return render(request, 'update_pages.html', context={'update_book': pages})
+
+
