@@ -25,7 +25,7 @@ class ChooseMonth(ModelForm):
         fields = ['month', 'name', 'days_in_month', 'week_days', 'public_holidays', 'free_days', 'working_days']
         widgets = {
             'name': forms.HiddenInput,
-            'days_in_moth': forms.HiddenInput,
+            'days_in_month': forms.HiddenInput,
             'week_days': forms.HiddenInput,
             'working_days': forms.HiddenInput
         }
@@ -37,7 +37,7 @@ class ChooseMonth(ModelForm):
         month_created = Month.objects.all()
         for month in month_created:
             if cleaned_data['month'] == month.month:
-                raise forms.ValidationError ('The {} is already created'.format(month.name))
+                raise forms.ValidationError('The {} is already created'.format(month.name))
 
         # found the amount of days in the current month
         month = int(cleaned_data['month'])
@@ -49,7 +49,7 @@ class ChooseMonth(ModelForm):
         # check if the order of month is correct
         if month > 1:
             try:
-                month_check = Month.objects.get(month=(month-1))
+                Month.objects.get(month=(month-1))
             except:
                 raise forms.ValidationError ('You try to create month in incorrect order')
 

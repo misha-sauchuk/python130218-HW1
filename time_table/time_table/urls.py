@@ -19,5 +19,6 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('table/', include('TimeTable.urls')),
-    path('liba/', include('my_liba.urls'))
+    path('liba/', include('my_liba.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

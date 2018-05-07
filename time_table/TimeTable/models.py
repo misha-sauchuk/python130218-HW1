@@ -1,7 +1,5 @@
 from django.db import models
-from datetime import datetime, date
-import json
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -13,27 +11,20 @@ class Mechanic(models.Model):
     address = models.CharField(max_length=250)
     timetable_number = models.IntegerField(unique=True)
 
+    class Meta:
+        permissions = (('can_add_mod_mechanic', 'Create and modify mechanic'),)
+
     def __str__(self):
         return '#{}: {} {}'.format(self.timetable_number, self.surname, self.name)
 
 
-# MONTHS = (('Jan', 'January'), ('Feb', 'February'), ('Mar', 'March',), ('Apr', 'April'), ('May', 'May',), ('Jun','June'), ('Jul', 'Jule'),
-#               ('Aug', 'August'), ('Sep', 'September'),('Oct', 'October'),('Nov', 'November'), ('Dec', 'December'))
-
-# MONTHS = (('1', 'January'), ('2', 'February'), ('3', 'March',), ('4', 'April'), ('5', 'May',), ('6','June'), ('7', 'Jule'),
-#               ('8', 'August'), ('9', 'September'),('10', 'October'),('11', 'November'), ('12', 'December'))
-
-# MONTHS = (('Jan', 'Jan'), ('Feb', 'Feb'), ('Mar', 'Mar',), ('Apr', 'Apr'), ('May', 'May',), ('Jun','Jun'), ('Jul', 'Jul'),
-#               ('Aug', 'Aug'), ('Sep', 'Sep'),('Oct', 'Oct'),('Nov', 'Nov'), ('Dec', 'Dec'))
-
-
 class Month(models.Model):
-    MONTHS = MONTHS = (
+    MONTHS = (
     ('1', 'January'), ('2', 'February'), ('3', 'March',), ('4', 'April'), ('5', 'May',), ('6', 'June'), ('7', 'Jule'),
     ('8', 'August'), ('9', 'September'), ('10', 'October'), ('11', 'November'), ('12', 'December'))
     month = models.CharField(default='', max_length=200, choices=MONTHS)
     name = models.CharField(default='', max_length=50, null=True, blank=True)
-    days_in_month = models.IntegerField(default=31, null=True, blank=True)
+    days_in_month = models.IntegerField(default='', null=True, blank=True)
     week_days = models.CharField(default='', max_length=250, null=True, blank=True)
 
     public_holidays = models.CharField(default='', max_length=20, null=True, blank=True, help_text='Enter the the days '
@@ -50,6 +41,9 @@ class Month(models.Model):
                                                                                              'enter in one line '
                                                                                              'with comma-separate')
     working_days = models.IntegerField(default=None, null=True, blank=True)
+
+    class Meta:
+        permissions = (('can_add_month', 'Create a month'),)
 
     def __str__(self):
         return self.name
@@ -68,4 +62,5 @@ class Timetable(models.Model):
                                                                                               '15 - is third shift ')
     timetable = models.CharField(default='', max_length=250, null=True, blank=True)
 
-
+    class Meta:
+        permissions = (('can_add_mod_timetable', 'Create and modify timetable'),)

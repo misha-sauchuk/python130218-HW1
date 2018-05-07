@@ -9,12 +9,19 @@
 
             <div class="row">
             {% block sidebar %}
+                {% if user.is_authenticated %}
+                <li>User: {{ user.get_username }}</li>
+                <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+                {% endif %}
             <ul class="sidebar-nav">
                 <li><a href="{% url 'home' %}">Главная</a> </li>
                 <li><a href="{% url 'mechanics' %}">Список механиков</a> </li>
                 <li><a href="{% url 'months' %}">Месяцы</a> </li>
                 <li><a href="{% url 'time_table' %}">График работы за весь год</a> </li>
             </ul>
+
             {% endblock %}
             </div>
             <div class="content">
@@ -23,10 +30,14 @@
         </div>
     </body>
     <footer>
+        {% if perms.TimeTable.can_add_mechanic and perms.TimeTable.can_add_month and perms.TimeTable.can_add_mod_timetable%}
         {% block footer %}
+
             <a href="{% url 'add_mechanic' %}">Добавить механика</a>
             <a href="{% url 'choose_month' %}">Добавить месяц</a>
             <a href="{% url 'create_timetable' %}">Создать график</a>
+
         {% endblock %}
+        {% endif %}
     </footer>
 </html>

@@ -6,7 +6,11 @@
     <ol>
         {% for timetable in timetable %}
         {% if timetable.month_id.month == month %}
-        <li>{{timetable.mechanic_id}} {{timetable.timetable}} <a href="{% url 'mod_timetable' timetable_id=timetable.id %}">изменить график</a>
+
+        <li>{{timetable.mechanic_id}} {{timetable.timetable}}
+            {% if perms.TimeTable.can_add_mod_timetable%}
+            <a href="{% url 'mod_timetable' timetable_id=timetable.id %}">изменить график</a>
+            {% endif %}
         </li>
         {% endif %}
         {% endfor %}
