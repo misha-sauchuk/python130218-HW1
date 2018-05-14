@@ -11,32 +11,59 @@
     <p>Your account doesn't have access to this page. To proceed,
     please login with an account that has access.</p>
     {% else %}
-    <p>Please login to see this page.</p>
+    <p>Please login to see this page</p>
     {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
+<h2 class="text-left">Авторизация</h2>
 
-<div>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</div>
-<div>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</div>
+    <form method="post" action="{% url 'login' %}" class="form-horizontal">
+    {% csrf_token %}
 
-<div>
-  <input type="submit" value="login" />
-  <input type="hidden" name="next" value="{{ next }}" />
-</div>
-</form>
+    <div class="form-group {% if 'password' in form.errors %}has-error{% endif %}">
+      <label for="username" class="col-sm-2 control-label">Имя пользователя</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="username" name="username" placeholder="Имя пользователя" required>
+            {% for error in form.errors.username %}
+            <span class="help-block text-danger">
+                {{ error }}
+            </span>
+            {% endfor %}
+        </div>
+    </div>
 
-{# Assumes you setup the password_reset view in your URLconf #}
+    <div class="form-group {% if 'password' in form.errors %}has-error{% endif %}">
+        <label for="password" class="col-sm-2 control-label">Пароль</label>
+        <div class="col-sm-6">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Пароль" required>
+            {% for error in form.errors.password1 %}
+            <span class="help-block text-danger">
+                {{ error }}
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-9">
+            <button type="submit" class="btn btn-primary">Войти</button>
+
+        </div>
+    </div>
+
+
+
+
+    </form>
+
 <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
 
 {% endblock %}
 
 {% block footer %}
 {% endblock %}
+
+
+
+
+

@@ -1,13 +1,60 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Изменить график для {{timetable.mechanic_id}}</h2>
-    <p>текущий график: {{timetable.timetable}}</p>
-    <form method="POST">{% csrf_token %}
-        {{mod_timetable.as_p}}
-        <button type="submit">сохранить</button>
+    <h3 class="text-left">Изменить график</h3>
+
+
+
+    <table width="100%">
+        <tr>
+            <td></td>
+            {% with table_tuple.2 as days %}
+            {% for day in days %}
+            <td align="center" class="days"><b>{{ day }}</b></td>
+            {% endfor %}
+            {% endwith %}
+        </tr>
+        <tr>
+            <td id="leftcol" align="center">
+                {% with table_tuple.0 as name %}
+                {{ name }}
+                {% endwith %}
+            </td>
+            {% with table_tuple.1 as timetable %}
+            {% for item in timetable %}
+            <td id='rightcol' align="center">{{ item }}</td>
+            {% endfor %}
+            {% endwith %}
+        </tr>
+    </table>
+
+    {% if e in form.non_field_erorrs %}
+        <div class="alert alert-danger">{{ e }}</div>
+    {% endif %}
+    <form method="POST" action="{% url 'mod_timetable' timetable_id=timetable.id  %}" class="form-horizontal">{% csrf_token %}
+        {{ mod_timetable.as_p }}
+
+        <!--<fieldset>-->
+            <!--{% for field in mod_timetable.visible_fields %}-->
+                <!--<div class="form-group" {% if field.errors %} has-error {% endif %}>-->
+                    <!--<label class="col-sm-2 control-label">{{ field.label }}</label>-->
+                    <!--<div class="controls">{{ field }}</div>-->
+
+                <!--</div>-->
+            <!--{% endfor %}-->
+        <!--</fieldset>-->
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-9">
+            <button type="submit" class="btn btn-primary">сохранить</button>
+
+            </div>
+        </div>
     </form>
+    {{ mod_timetable.errors }}
 {% endblock %}
 
 {% block footer %}
 {% endblock %}
+
+

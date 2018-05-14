@@ -1,14 +1,23 @@
 {% extends 'base.html' %}
 
+{% block head_page %}
+<h1>Список механиков</h1>
+{% endblock %}
+
 {% block content %}
+<div>
     <ol>
         {% for mechanic in mechanics %}
-        <li><a href="{% url 'mechanic_info' mechanic_id=mechanic.id %}">{{mechanic.surname}} {{mechanic.name}}</a></li>
+        <li><p><a href="{% url 'mechanic_info' mechanic_id=mechanic.id mechanic_name=mechanic%}">{{mechanic.name}} {{mechanic.surname}}</a></p></li>
         {% endfor %}
     </ol>
+</div>
+
 {% endblock %}
 
 {% block footer %}
-    <a href="{% url 'add_mechanic' %}">Добавить механика</a>
+<a href="{% url 'add_mechanic' %}" class="top-menu pull-right"><span class="glyphicon glyphicon-plus"></span> Добавить механика</a>
 {% endblock %}
+
+
 

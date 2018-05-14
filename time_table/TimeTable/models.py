@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+#from django_mysql.models import JSONField, Model
 
 # Create your models here.
 
@@ -15,7 +16,9 @@ class Mechanic(models.Model):
         permissions = (('can_add_mod_mechanic', 'Create and modify mechanic'),)
 
     def __str__(self):
-        return '#{}: {} {}'.format(self.timetable_number, self.surname, self.name)
+        if self.name is None or self.surname is None:
+            return "ERROR NAME OR SURNAME IS NULL"
+        return '{} {}'.format(self.name, self.surname)
 
 
 class Month(models.Model):
@@ -33,7 +36,8 @@ class Month(models.Model):
                                                                                                    'there are several '
                                                                                                    'holidays, please '
                                                                                                    'enter in one line '
-                                                                                                   'with comma-separate')
+                                                                                                   'with comma-'
+                                                                                                   'separate')
     free_days = models.CharField(default='', max_length=20, null=True, blank=True, help_text='Enter the day that '
                                                                                              'is free of work. If '
                                                                                              'there are several '
@@ -46,6 +50,8 @@ class Month(models.Model):
         permissions = (('can_add_month', 'Create a month'),)
 
     def __str__(self):
+        if self.name is None:
+            return "ERROR NAME IS NULL"
         return self.name
 
 

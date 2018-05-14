@@ -1,13 +1,35 @@
 {% extends 'months.html' %}
 
 {% block content %}
-    <h1>{{month.name}}</h1>
-    <p>Количесвто дней в месяце: {{month.days_in_month}}</p>
-    <p>Количесвто рабочих дней в месяце: {{month.working_days}}</p>
-    <ol>
-        {% for table in month.month_name.all %}
-        <li>{{table.mechanic_id}} {{table.timetable}}</li>
-        {% endfor %}
-    </ol>
+    <h3><b>{{month.name}}</b></h3>
+    <p><b>Количесвто дней в месяце:</b> {{month.days_in_month}}</p>
+    <p><b>Количесвто рабочих дней в месяце:</b> {{month.working_days}}</p>
 
+    <table width="100%">
+        <tr>
+            <td></td>
+            {% for day in days %}
+            <td align="center"><b>{{day}}</b></td>
+            {% endfor %}
+        </tr>
+        {% for table in month_list %}
+        <tr>
+            <td class="leftcol">
+                    {% with table.2 as mechanic_id %}
+                    {% with table.0 as name %}
+                        <a href="{% url 'mechanic_info' mechanic_id=mechanic_id mechanic_name=name%}">{{ name }}</a>
+                    {% endwith %}
+                    {% endwith %}
+            </td>
+
+            {% with table.1 as timetable %}
+                {% for item in timetable %}
+                <td id='rightcol' align="center" {% if item == 0 %} bgcolor="#ccc" {% endif %}>{{item}}</td>
+                {% endfor %}
+            {% endwith %}
+
+        </tr>
+        {% endfor %}
+
+    </table>
 {% endblock %}

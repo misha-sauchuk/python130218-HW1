@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
 
+{% block head_page %}
+<h1>Месяцы</h1>
+{% endblock %}
+
 {% block content %}
     <p>
     <ol>
 
     {% for month in month %}
-        <li><p><a href="{% url 'month_info' month_id=month.id %}">{{month}}</a>, {{month.days_in_month}}, {{month.id}}</p></li>
+        <li><p><a href="{% url 'month_info' month_id=month.id month_name=month%}" class="month">{{month}}</a></p></li>
     {% endfor %}
     </ol>
     </p>
 {% endblock %}
 
 {% block footer %}
-    <a href="{% url 'choose_month' %}">Добавить месяц</a>
+    <a href="{% url 'choose_month' %}" class="top-menu pull-right"><span class="glyphicon glyphicon-plus"></span> Добавить месяц</a>
 {% endblock %}
 
 

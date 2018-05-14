@@ -1,14 +1,93 @@
 {% extends 'base.html' %}
 
+{% block head_page %}
+<h1>Годовой график</h1>
+{% endblock %}
+
 {% block content %}
-        <ol>
-            {% for timetable in timetable %}
-            <li>{{timetable.mechanic_id}} {{timetable.timetable}}  {{timetable.month_id.working_days}} {{timetable.id}}
-            </li>
+
+    <table width="100%">
+        {% for table in table_list %}
+        <tr>
+            <td class="days">
+                {% with table.3 as month_id %}
+                {% with table.0 as month_name %}
+                <a href="{% url 'month_info' month_id=month_id month_name=month_name%}" class="month"><b>{{ month_name }}</b></a>
+                {% endwith %}
+                {% endwith %}
+            </td>
+
+            {% with table.1 as days %}
+            {% for day in days %}
+                <td align="center" class="days"><b>{{day}}</b></td>
             {% endfor %}
-        </ol>
+            {% endwith %}
+        </tr>
+
+            {% with table.2 as mech_list %}
+            {% for mech in mech_list %}
+            <tr>
+            <td class="leftcol">
+                    {% with mech.2 as mechanic_id %}
+                    {% with mech.0 as name %}
+                <a href="{% url 'mechanic_info' mechanic_id=mechanic_id mechanic_name=name%}">{{ name }}</a>
+                    {% endwith %}
+                    {% endwith %}
+
+            </td>
+                    {% with mech.1 as timetable %}
+                        {% for item in timetable %}
+
+                        <td id='rightcol' align="center" {% if item == 0 %} bgcolor="#ccc" {% endif %}>{{item}}</td>
+
+                        {% endfor %}
+                    {% endwith %}
+
+            </tr>
+            {% endfor %}
+            {% endwith %}
+
+
+
+
+
+
+        {% endfor %}
+
+
+    </table>
+
 {% endblock %}
 
 {% block footer %}
-    <a href="{% url 'create_timetable' %}">Создать график</a>
+    <a href="{% url 'create_timetable' %}" class="top-menu pull-right"><span class="glyphicon glyphicon-plus"></span> Создать график</a>
 {% endblock %}
+
+
+
+<!--<ol><div class="month"><a href="{% url 'month_info' month_id=month.id %}">{{month.name}}</a></div>-->
+            <!--{% for table in month.month_name.all %}-->
+            <!--<li>-->
+                <!--<a href="{% url 'mechanic_info' mechanic_id=table.mechanic_id.id %}">{{table.mechanic_id}}</a> {{table.timetable}}-->
+            <!--</li>-->
+            <!--{% endfor %}-->
+
+        <!--</ol>-->
+
+
+
+    {% for month in month %}
+
+        <table>
+            <th<div class="month"><a href="{% url 'month_info' month_id=month.id %}">{{month.name}}</a></div></thead>
+            {% for table in month.month_name.all %}
+                <tr>
+                    <td><a href="{% url 'mechanic_info' mechanic_id=table.mechanic_id.id %}">{{table.mechanic_id}}</a></td>
+                    <td align="center">{{table.timetable}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
+
+
+

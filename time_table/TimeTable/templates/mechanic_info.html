@@ -1,20 +1,52 @@
 {% extends 'mechanics.html' %}
 
 {% block content %}
-    <h1>{{mechanic.surname}} {{mechanic.name}}</h1>
-    <p>Табельнй номер: {{mechanic.timetable_number}}</p>
-    <p>Контактный телефон: {{mechanic.phone}}</p>
-    <p>Домашний адрес: {{mechanic.address}}</p>
-    <ol>
-    {% for table in mechanic.table.all %}
-        <li><p>{{table.month_id}}: {{table.timetable}} </p></li>
+    <h3><b>{{mechanic.name}} {{mechanic.surname}}</b>
+    <a href="{% url 'mod_mechanic' mechanic_id=mechanic.id%}"><span class="glyphicon glyphicon-edit"></span></a>
+    </h3>
 
-    {% endfor %}
-    </ol>
+    <p><b>Табельнй номер:</b> {{mechanic.timetable_number}}</p>
+    <p><b>Контактный телефон:</b> {{mechanic.phone}}</p>
+    <p><b>Домашний адрес:</b> {{mechanic.address}}</p>
+
+    <table width="100%">
+
+        {% for table in mech_list %}
+        <tr>
+            <td></td>
+            {% with table.2 as days %}
+                {% for item in days %}
+                <td align="center" class="days">
+                    <b>{{item}}</b>
+                </td>
+                {% endfor %}
+            {% endwith %}
+        </tr>
+        <tr>
+            <td id="leftcol" align="center">
+                {% with table.3 as month_id %}
+                {% with table.0 as month %}
+                    <a href="{% url 'month_info' month_id=month_id month_name=month%}" class="month"><b>{{ month }}</b></a>
+                {% endwith %}
+                {% endwith %}
+            </td>
+
+            {% with table.1 as timetable %}
+                {% for item in timetable %}
+                <td id='rightcol' align="center" {% if item == 0 %} bgcolor="#ccc" {% endif %}>
+                    {{item}}
+                </td>
+                {% endfor %}
+            {% endwith %}
+        </tr>
+        {% endfor %}
+
+    </table>
 
 {% endblock %}
 
 {% block footer %}
-    <a href="{% url 'mod_mechanic' mechanic_id=mechanic.id %}">Изменить данные</a>
+
 {% endblock %}
+
 

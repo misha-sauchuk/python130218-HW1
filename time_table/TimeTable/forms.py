@@ -20,6 +20,7 @@ class ModifyMechanic(ModelForm):
 
 
 class ChooseMonth(ModelForm):
+
     class Meta:
         model = Month
         fields = ['month', 'name', 'days_in_month', 'week_days', 'public_holidays', 'free_days', 'working_days']
@@ -61,7 +62,7 @@ class ChooseMonth(ModelForm):
         working_days = len(list(filter((lambda x: x < 6), week_days)))
 
         # check if there are public_holidays in weekdays (Monday - Friday)
-        if cleaned_data['public_holidays']:
+        if cleaned_data['public_holidays'] is not None:
             public_holidays = cleaned_data['public_holidays'].split(',')
             for item in public_holidays:
                 if week_days[int(item) - 1] < 6:
@@ -69,7 +70,6 @@ class ChooseMonth(ModelForm):
             cleaned_data['working_days'] = working_days
         else:
             cleaned_data['working_days'] = working_days
-
         return cleaned_data
 
 
@@ -135,22 +135,31 @@ class CreateTimetable(ModelForm):
 
 
 class ModTimetable(ModelForm):
-    date = forms.DateField
-    shift = forms.IntegerField
+    SHIFT = ((0,'free day'), (7,'first shift'), (15,'second shift'), (23,'third shift'))
+    free_day = forms.IntegerField(required=False)
+    day = forms.IntegerField()
+    shift = forms.ChoiceField(choices=SHIFT)
 
     class Meta:
         model = Timetable
-        fields = ['timetable']
+        fields = ['timetable','day', 'shift', 'free_day']
+        widgets = {
+            'timetable': forms.HiddenInput
+        }
 
     def clean(self):
         cleaned_data = super().clean()
-        day = date.day
+        day = cleaned_data['day']
+        free_day = cleaned_data['free_day']
         timetable = json.loads(cleaned_data['timetable'])
-        print(timetable)
-
-        print(type(timetable))
-        timetable[0]=0
-        print(timetable)
+        working_days = len(list(filter((lambda x: x > 0), timetable)))
+        shift = int(cleaned_data['shift'])
+        timetable[day-1] = shift
+        if free_day:
+            timetable[free_day-1] = 0
+        working_days_mod = len(list(filter((lambda x: x > 0), timetable)))
+        if working_days != working_days_mod:
+            raise forms.ValidationError('You should add a free day')
         cleaned_data['timetable'] = json.dumps(timetable)
         return cleaned_data
 
@@ -218,7 +227,10 @@ def add_shift_on_monday(day_list,list_shift):
 
 
 def get_full_timetable(list_shift, not_all_working_days, working_days, week_days):
-    for day in range(len(list_shift)):
+    for_list = [i for i in range(len(list_shift))]
+    shuffle(for_list)
+    print(for_list)
+    for day in for_list:
         if not_all_working_days < working_days:
             if (list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 7 and list_shift[
                 day - 1] == 0) or (
