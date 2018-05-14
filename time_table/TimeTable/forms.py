@@ -11,6 +11,17 @@ class AddMechanic(ModelForm):
     class Meta:
         model = Mechanic
         fields = ['name', 'surname', 'phone', 'address', 'timetable_number']
+        help_texts = {
+            'phone': ('Use only numbres without space, example: 375291234567'),
+        }
+
+    def clean_phone(self):
+        data = self.cleaned_data['phone']
+        phone = str(data)
+        if phone.startswith('375'):
+            return data
+        else:
+            raise forms.ValidationError('Phone number must start with 375 (code Belarus)')
 
 
 class ModifyMechanic(ModelForm):

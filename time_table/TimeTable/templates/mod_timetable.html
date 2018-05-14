@@ -22,7 +22,7 @@
             </td>
             {% with table_tuple.1 as timetable %}
             {% for item in timetable %}
-            <td id='rightcol' align="center">{{ item }}</td>
+            <td id='rightcol' align="center" {% if item == 0 %} bgcolor="#ccc" {% endif %}>{{ item }}</td>
             {% endfor %}
             {% endwith %}
         </tr>
