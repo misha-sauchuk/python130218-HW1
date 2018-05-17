@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<table width="100%">
+<table width="105%">
     <tr>
         <td></td>
         {% for day in days %}
@@ -29,7 +29,7 @@
 
             {% with table.2 as timetable_id %}
             <td id="thirdcol" align="center">
-                {% if perms.TimeTable.can_add_mod_timetable%}
+                {% if perms.TimeTable.can_add_mod_timetable %}
                     <a href="{% url 'mod_timetable' timetable_id=timetable_id %}">
                     <span class="glyphicon glyphicon-edit"></span></a>
                 {% endif %}
@@ -39,6 +39,5 @@
     {% endfor %}
 
 </table>
-
 
 {% endblock %}

@@ -41,8 +41,16 @@ class ChooseMonth(ModelForm):
             'week_days': forms.HiddenInput,
             'working_days': forms.HiddenInput
         }
+    # def clean_month(self):
+    #     data = self.cleaned_data['month']
+    #     month_created = Month.objects.all()
+    #     for month in month_created:
+    #         if data['month'] == month.month:
+    #             raise forms.ValidationError('The {} is already created'.format(month.name))
+    #     return data
 
     def clean(self):
+        current_year = datetime.today().year
         cleaned_data = super().clean()
 
         # check if this moth haven't been created yet
@@ -55,7 +63,7 @@ class ChooseMonth(ModelForm):
         month = int(cleaned_data['month'])
         cleaned_data['name'] = calendar.month_name[month]
 
-        month_info = calendar.monthrange(2018, month)
+        month_info = calendar.monthrange(current_year, month)
         cleaned_data['days_in_month'] = month_info[1]
 
         # check if the order of month is correct
@@ -66,7 +74,7 @@ class ChooseMonth(ModelForm):
                 raise forms.ValidationError ('You try to create month in incorrect order')
 
         # create list of week days where 1 is Monday, 2 is Tuesday and etc.
-        week_days = [(date(2018, month, day).isoweekday()) for day in range(1, month_info[1] + 1)]
+        week_days = [(date(current_year, month, day).isoweekday()) for day in range(1, month_info[1] + 1)]
         cleaned_data['week_days'] = json.dumps(week_days)
 
         # calculating the amount of working days in the current month
@@ -79,8 +87,10 @@ class ChooseMonth(ModelForm):
                 if week_days[int(item) - 1] < 6:
                     working_days -= 1
             cleaned_data['working_days'] = working_days
+            print(cleaned_data['working_days'],'holi')
         else:
             cleaned_data['working_days'] = working_days
+            print(cleaned_data['working_days'], 'not holi')
         return cleaned_data
 
 
@@ -134,10 +144,6 @@ class CreateTimetable(ModelForm):
             if item > 0:
                 sum += 1
 
-        # shuffle_days = [i + 1 for i in range(len(list_shift))]
-        # shuffle(shuffle_days)
-        # for day in shuffle_days:
-
         # add shifts to timetable to finish the timetable
         list_shift = get_full_timetable(list_shift, sum, month_id.working_days, week_days)
 
@@ -170,7 +176,9 @@ class ModTimetable(ModelForm):
             timetable[free_day-1] = 0
         working_days_mod = len(list(filter((lambda x: x > 0), timetable)))
         if working_days != working_days_mod:
+            print('I\'m here')
             raise forms.ValidationError('You should add a free day')
+            print('I\'m after raise')
         cleaned_data['timetable'] = json.dumps(timetable)
         return cleaned_data
 
@@ -239,25 +247,29 @@ def add_shift_on_monday(day_list,list_shift):
 
 def get_full_timetable(list_shift, not_all_working_days, working_days, week_days):
     for_list = [i for i in range(len(list_shift))]
+    print(len(list_shift))
     shuffle(for_list)
-    print(for_list)
     for day in for_list:
         if not_all_working_days < working_days:
-            if (list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 7 and list_shift[
+            # print(day, 'day')
+            # print(list_shift[day-1],'-')
+            # print(list_shift[day])
+            # print(list_shift[day + 1],'+')
+            if (day < len(list_shift) and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 7 and list_shift[
                 day - 1] == 0) or (
-                    day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 7 and
+                    day < len(list_shift) and day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 7 and
                     list_shift[day + 1] == 0):
                 list_shift[day] = 7
                 not_all_working_days += 1
-            elif (list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 15 and list_shift[
+            elif (day < len(list_shift) and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 15 and list_shift[
                 day - 1] == 0) or (
-                    day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 15 and
+                    day < len(list_shift) and day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 15 and
                     list_shift[day + 1] == 0):
                 list_shift[day] = 15
                 not_all_working_days += 1
-            elif (list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 23 and list_shift[
+            elif (day < len(list_shift) and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 23 and list_shift[
                 day - 1] == 0) or (
-                    day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 23 and
+                    day < len(list_shift) and day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 23 and
                     list_shift[day + 1] == 0):
                 list_shift[day] = 23
                 not_all_working_days += 1

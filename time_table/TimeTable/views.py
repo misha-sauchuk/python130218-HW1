@@ -6,15 +6,15 @@ import datetime
 import calendar
 from django.contrib.auth.decorators import login_required, permission_required
 import json
-#from
 
 # Create your views here.
 
 
 def home_page(request):
     current_month = datetime.datetime.today().month
+    current_year = datetime.datetime.today().year
     month_name = calendar.month_name[current_month]
-    days = calendar.monthrange(2018, current_month)
+    days = calendar.monthrange(current_year, current_month)
     current_month = str(current_month)
     days_list=[i+1 for i in range(days[1])]
     timetable = Timetable.objects.filter(month_id__month = current_month)
@@ -108,9 +108,9 @@ def choose_month(request):
     if request.method == 'POST':
         form = ChooseMonth(request.POST)
         if form.is_valid():
-            print('before save')
+            #print('before save')
             form.save()
-            print('after save')
+            #print('after save')
             return HttpResponseRedirect('/months')
     return render(request, 'choose_month.html', context={'choose_month': form})
 
@@ -133,7 +133,9 @@ def timetable(request):
             month_list.append(month_tuple)
         month_tuple_all = (month.name, days_list,month_list, month.id)
         month_list_all.append(month_tuple_all)
-    return render(request, 'timetable.html', context={'timetable': timetable, 'month':months, 'table_list':month_list_all})
+    return render(request, 'timetable.html', context={'timetable': timetable,
+                                                      'month':months,
+                                                      'table_list':month_list_all})
 
 
 @permission_required('TimeTable.can_add_mod_timetable')
@@ -169,6 +171,32 @@ def modify_timetable(request, timetable_id):
                                                           'table_tuple': table_tuple})
 
 
+@login_required()
+def search(request):
+    q = request.GET.get('q')
+    weekday_list = list(calendar.day_name)
+    if q:
+        date = q.split('-')
+        year = int(date[0])
+        month = int(date[1])
+        day = int(date[2])
+        current_month = datetime.datetime.today().month
+        weekday = weekday_list[calendar.weekday(year,month,day)]
+        timetable = Timetable.objects.filter(month_id__month = month)
+        result_search = []
+        for t in timetable:
+            name = '{} {}'.format(t.mechanic_id.name, t.mechanic_id.surname)
+            mech_id = t.mechanic_id.id
+            t_table = json.loads(t.timetable)[day-1]
+            timetable_id = t.id
+            table_tuple = (name, t_table, timetable_id, mech_id)
+            result_search.append(table_tuple)
+        return render(request, 'search.html', context={'result_search': result_search,
+                                                       'q': q,
+                                                       'weekday': weekday,
+                                                       'current_month': current_month,
+                                                       'month': month})
+    return render(request, 'search.html')
 
 
 

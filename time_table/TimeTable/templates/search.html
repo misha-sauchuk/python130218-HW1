@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head_page %}
+<h1>Результат поиска</h1>
+{% endblock %}
+
+{% block content %}
+    <h5>Timetable for <strong>{{ q }}</strong> ({{weekday}}):</h5>
+
+    {% if result_search %}
+    <table width="25%">
+
+    {% for table in result_search %}
+    <tr>
+        <td class="leftcol">
+            {% with table.3 as mech_id %}
+            {% with table.0 as name %}
+            <a href="{% url 'mechanic_info' mechanic_id=mech_id mechanic_name=name%}">{{ name }}</a>
+            {% endwith %}
+            {% endwith %}
+        </td>
+            {% with table.1 as timetable %}
+            <td id='rightcol' align="center" {% if timetable == 0 %} bgcolor="#ccc" {% endif %}>{{timetable}}</td>
+            {% endwith %}
+
+            {% with table.2 as timetable_id %}
+            <td id="thirdcol" align="center">
+                {% if perms.TimeTable.can_add_mod_timetable and month == current_month%}
+                    <a href="{% url 'mod_timetable' timetable_id=timetable_id %}">
+                    <span class="glyphicon glyphicon-edit"></span></a>
+                {% endif %}
+            </td>
+            {% endwith %}
+    </tr>
+    {% endfor %}
+
+    </table>
+    {% else %}
+        <p>Not found</p>
+    {% endif %}
+
+
+
+{% endblock %}

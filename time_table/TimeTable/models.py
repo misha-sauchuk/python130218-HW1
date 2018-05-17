@@ -11,6 +11,7 @@ class Mechanic(models.Model):
     phone = models.IntegerField()
     address = models.CharField(max_length=250)
     timetable_number = models.IntegerField(unique=True)
+    # image = models.ImageField(default='', upload_to='media/images', blank=True)
 
     class Meta:
         permissions = (('can_add_mod_mechanic', 'Create and modify mechanic'),)

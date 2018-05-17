@@ -17,11 +17,22 @@
             <div class="row">
                 {% if user.is_authenticated %}
                 <a href="{% url 'logout'%}?next={{request.path}}" class="top-menu pull-right"><span class="glyphicon glyphicon-off"></span></a>
-                 <span class="top-menu pull-right">&nbsp;</span>
                 {% else %}
                 <a href="{% url 'login'%}?next={{request.path}}" class="top-menu pull-right"><span class="glyphicon glyphicon-lock"></a>
                 {% endif %}
                 <p class="top-menu pull-right">{{ user.get_username | capfirst }}</p>
+                <form class="form-inline pull-right" style="margin-right: 20px" action="{% url 'search' %}"
+                          method="GET">
+                    <div class="input-group">
+                        <input type="date" class="form-control input-sm" placeholder="Поиск" name="q">
+                        <div class="input-group-btn">
+                            <button class="btn btn-sm btn-default" type="submit"><i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+
                 <a href="{% url 'home' %}" class="top-menu pull-left">Главная</a>
                 <a href="{% url 'mechanics' %}" class="top-menu pull-left">Список механиков</a>
                 <a href="{% url 'months' %}" class="top-menu pull-left">График работы за месяц</a>

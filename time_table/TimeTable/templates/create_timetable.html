@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2 class="text-left">Создание графика</h2>
-    {% if e in form.non_field_erorrs %}
+    {% if e in form.non_field_errors %}
         <div class="alert alert-danger">{{ e }}</div>
     {% endif %}
     <form method="POST" action="{% url 'create_timetable' %}" class="form-horizontal">{% csrf_token %}

@@ -2,22 +2,13 @@
 
 {% block content %}
     <h2 class="text-left">Добавление месяца</h2>
-    {% if e in choose_month.non_field_erorrs %}
+    {% if e in choose_month.non_form_errors %}
         <div class="alert alert-danger">{{ e }}</div>
     {% endif %}
     <form method="POST" action="{% url 'choose_month' %}" class="form-horizontal">{% csrf_token %}
         {{ choose_month.as_p }}
 
-        <!--<fieldset>-->
-            <!--{% for field in choose_month %}-->
-                <!--<div class="form-group" {% if field.errors %} has-error {% endif %}>-->
-                    <!--<label class="col-sm-2 control-label">{{ field.label }}</label>-->
-                    <!--<div class="controls">{{ field }}</div>-->
-                    <!--<div>{{ field.choose_month.errors }}</div>-->
 
-                <!--</div>-->
-            <!--{% endfor %}-->
-        <!--</fieldset>-->
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

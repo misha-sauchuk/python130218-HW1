@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2 class="text-left">Изменить данные для {{mechanic}}</h2>
-    {% if e in form.non_field_erorrs %}
+    {% if e in form.non_field_errors %}
         <div class="alert alert-danger">{{ e }}</div>
     {% endif %}
     <form method="POST" action="{% url 'mod_mechanic' mechanic_id=mechanic.id  %}" class="form-horizontal">{% csrf_token %}

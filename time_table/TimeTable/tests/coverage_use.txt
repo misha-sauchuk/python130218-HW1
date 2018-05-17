@@ -1,0 +1,20 @@
+Use pip or easy_install, as you want:
+    pip install coverage
+
+
+For running on a django project, use this command:
+    coverage run --source='.' manage.py test the-app-you-want-to-test
+
+This command will fill a “.coverage”, located in COVERAGE_FILE and then you may see results or report.
+
+
+If you need to remove gathered data, execute:
+    coverage erase
+
+
+If you want to show the results in the command line, run:
+    coverage report
+
+
+For more readable reports:
+    coverage html

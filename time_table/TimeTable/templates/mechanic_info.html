@@ -2,12 +2,17 @@
 
 {% block content %}
     <h3><b>{{mechanic.name}} {{mechanic.surname}}</b>
-    <a href="{% url 'mod_mechanic' mechanic_id=mechanic.id%}"><span class="glyphicon glyphicon-edit"></span></a>
+        {% if perms.TimeTable.can_add_mod_mechanic %}
+        <a href="{% url 'mod_mechanic' mechanic_id=mechanic.id%}"><span class="glyphicon glyphicon-edit"></span></a>
+        {% endif %}
     </h3>
 
     <p><b>Табельнй номер:</b> {{mechanic.timetable_number}}</p>
     <p><b>Контактный телефон:</b> {{mechanic.phone}}</p>
     <p><b>Домашний адрес:</b> {{mechanic.address}}</p>
+    <!--{% if post.image %}-->
+    <!--<img src="{{ mechanic.image.url }}">-->
+    <!--{% endif %}-->
 
     <table width="100%">
 

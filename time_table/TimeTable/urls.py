@@ -1,6 +1,8 @@
 from . import views
 from django.urls import path
 from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -15,7 +17,7 @@ urlpatterns = [
     path('mod_mechanic/<int:mechanic_id>', views.modify_mechanic, name='mod_mechanic'),
     path('choose_month/', views.choose_month, name='choose_month'),
     path('mod_timetable/<int:timetable_id>', views.modify_timetable, name='mod_timetable'),
+    path('search/', views.search, name='search'),
 
-
-]
+]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2 class="text-left">Добавление механика</h2>
-    {% if e in form.non_field_erorrs %}
+    {% if e in add_mechanic.non_field_errors %}
         <div class="alert alert-danger">{{ e }}</div>
     {% endif %}
     <form method="POST" action="{% url 'add_mechanic' %}" class="form-horizontal">{% csrf_token %}

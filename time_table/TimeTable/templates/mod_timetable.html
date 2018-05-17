@@ -28,27 +28,28 @@
         </tr>
     </table>
 
-    {% if e in form.non_field_erorrs %}
-        <div class="alert alert-danger">{{ e }}</div>
+    {% if e in mod_timetable.non_form_errors %}
+        <div >{{ e }}</div>
     {% endif %}
-    <form method="POST" action="{% url 'mod_timetable' timetable_id=timetable.id  %}" class="form-horizontal">{% csrf_token %}
+
+    <form method="post" action="{% url 'mod_timetable' timetable_id=timetable.id  %}" class="form-horizontal">{% csrf_token %}
         {{ mod_timetable.as_p }}
 
         <!--<fieldset>-->
-            <!--{% for field in mod_timetable.visible_fields %}-->
-                <!--<div class="form-group" {% if field.errors %} has-error {% endif %}>-->
-                    <!--<label class="col-sm-2 control-label">{{ field.label }}</label>-->
+            <!--{% for field in mod_timetable %}-->
+                <!--<div class="control-group" {% if field.errors %}has-error{% endif %}>-->
+                    <!--<label class="control-label">{{ field.label }}</label>-->
                     <!--<div class="controls">{{ field }}</div>-->
 
                 <!--</div>-->
             <!--{% endfor %}-->
         <!--</fieldset>-->
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-9">
+        <div class="form-actions">
+
             <button type="submit" class="btn btn-primary">сохранить</button>
 
-            </div>
+
         </div>
     </form>
     {{ mod_timetable.errors }}
