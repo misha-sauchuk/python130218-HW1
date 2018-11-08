@@ -7,7 +7,7 @@ if not text_file:
     text_file = 'text_file.txt'
 
 # open file
-text_file = open('text_file.txt')
+text_file = open(text_file)
 count = 0
 
 # circle to count the numbers of lines and numbers of words in line
